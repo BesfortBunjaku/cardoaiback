@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  # django app service
+  cardoai:
+    image: cardoai:latest
+    container_name: cardoai_container
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+
+  # redis service
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    volumes:
+      - .:/data
+    ports:
+      - "6379:6379"
+    restart: always
+  
+  # celery service
+  celery:
+    container_name: celery_container
+    build: .
+    command: celery -A config worker -l info
+    restart: always
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - cardoai
+    
+   
