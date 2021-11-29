@@ -14,15 +14,15 @@ urlpatterns = [
 
         # paths for schemas
     # ===============================================================================
-    path('api/v1/rest/schema/', get_schema_view(title='Cardoai API', description='Api for Cardoai', version='1.0.0')),
-    # path('api/v1/spec/schema/', SpectacularAPIView.as_view(), name='schema'),
+    #path('api/v1/rest/schema/', get_schema_view(title='Cardoai API', description='Api for Cardoai', version='1.0.0')),
+    path('api/v1/spec/schema/', SpectacularAPIView.as_view(), name='schema'),
     # ===============================================================================
 
     # paths for doucmentation
     # ===============================================================================
-    path('api/v1/rest/docs/', include_docs_urls(title='API Docs')),
-    # path('api/v1/spec/swagger-ui/docs', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    # path('api/v1/spec/redoc/docs', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    #path('api/v1/rest/docs/', include_docs_urls(title='API Docs')),
+    path('api/v1/spec/swagger-ui/docs', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    #path('api/v1/spec/redoc/docs', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
 ]
 

@@ -7,8 +7,8 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer, HTMLFor
 from rest_framework.parsers import MultiPartParser
 from .permissions import InvestorAndAnalystPermissions
 from .tasks import save_csv
-
-
+from .statistics import Statistic
+from django.utils.translation import gettext_lazy as _
 
 class CashFlowAPIView(APIView):
 
@@ -47,8 +47,15 @@ class CsvFileAPIView(APIView):
         save_csv.delay(string_csv=string_csv,file_name=request.FILES['file_path'].name)
         serializer = CsvFileSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(uploded_by=request.user)
+            serializer.save() #serializer.save(uploded_by=request.user)
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
 
+
+class StatisticsAPIView(APIView):
+
+    def get(self, request):
+        """check first in cash"""
+        statistic = Statistic(loan=Loan, cash_flow=CashFlow, user=request.user)
+        return Response(statistic.get_statistics())
